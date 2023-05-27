@@ -1,5 +1,5 @@
 global start
-extern  kernel_main
+extern  kernel_entry
 
 MODULEALIGH     equ 1<<0
 MEMINFO         equ 1<<1
@@ -17,7 +17,7 @@ MultiBootHeader:
 
 
 start:
-        call kernel_main
+        call kernel_entry
         cli
 
 except:

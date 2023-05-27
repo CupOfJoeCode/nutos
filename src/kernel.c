@@ -1,5 +1,8 @@
 #include "terminal.h"
-void kernel_main()
+#include "keyboard.h"
+
+void kernel_entry()
 {
+    kernel_keyboard_init();
     kernel_terminal_start();
 }

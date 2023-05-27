@@ -1,6 +1,7 @@
 #include "terminal.h"
 #include "screen.h"
 #include "std.h"
+#include "keyboard.h"
 
 unsigned int cursor_x = 0;
 
@@ -16,6 +17,22 @@ void term_draw_splash()
     kernel_terminal_prints("  ");
     kernel_terminal_prints_color("  ", kernel_get_color_byte(0, VGA_COLOR_BROWN, 0));
     kernel_terminal_prints("   NutOS v0.0.0\n\n");
+
+    kernel_terminal_prints_color("> ", kernel_get_color_byte(VGA_COLOR_GREEN, 0, 0));
+    kernel_terminal_prints_color("_", kernel_get_color_byte(VGA_COLOR_GRAY, 0, 1));
+
+    char keychar;
+    char keytext[8];
+    for (;;)
+    {
+        keychar = kernel_keyboard_get_char();
+        if (keychar)
+        {
+            keytext[0] = keychar;
+            keytext[1] = 0;
+            kernel_terminal_prints(keytext);
+        }
+    }
 }
 
 void kernel_terminal_start()
