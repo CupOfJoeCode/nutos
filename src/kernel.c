@@ -1,6 +1,5 @@
-#include "screen.h"
-
+#include "terminal.h"
 void kernel_main()
 {
-    kernel_draw_fill(0b01110111);
+    kernel_terminal_start();
 }

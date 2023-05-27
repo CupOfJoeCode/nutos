@@ -1,62 +1,32 @@
+void kernel_draw_set_char(unsigned int x, unsigned int y, char color, char c);
 
-char *video_memory = (char *)0xb8000;
-#define COLS 80
-#define ROWS 25
+void kernel_draw_print_at(unsigned int x, unsigned int y, char color, char *text);
 
-void kernel_draw_set_char(unsigned int x, unsigned int y, char color, char c)
-{
-    if (x < 0 || x >= COLS || y < 0 || y >= ROWS)
-    {
-        return;
-    }
-    int address = x * 2 + (y * COLS * 2);
-    video_memory[address] = c;
-    video_memory[address + 1] = color;
-}
+void kernel_draw_fill(char color);
 
-void kernel_draw_print_at(unsigned int x, unsigned int y, char color, char *text)
-{
+void kernel_screen_reset();
 
-    int i = 0;
-    int index = 0;
-    int line_x = 0;
-    int line_y = 0;
-    while (text[index])
-    {
-        if (text[index] == '\n')
-        {
-            line_x = 0;
-            line_y++;
-        }
-        else
-        {
-            kernel_draw_set_char(x + line_x, y + line_y, color, text[index]);
-            line_x++;
-        }
-        index++;
-    }
-}
+unsigned char kernel_get_color_byte(unsigned char foreground, unsigned char background, unsigned char blink);
 
-void kernel_draw_fill(char color)
-{
-    unsigned int i = 0;
-    while (i < (80 * 25 * 2))
-    {
-        video_memory[i] = ' ';
-        i++;
-        video_memory[i] = color;
-        i++;
-    }
-}
+char *kernel_get_screen_buf();
 
-void kernel_screen_reset()
-{
-    unsigned int i = 0;
-    while (i < (80 * 25 * 2))
-    {
-        video_memory[i] = ' ';
-        i++;
-        video_memory[i] = 0;
-        i++;
-    }
-}
+void kernel_screen_get(unsigned char *charptr, unsigned char *colorptr, unsigned int x, unsigned int y);
+void kernel_screen_get_dims(unsigned int *widthptr, unsigned int *heightptr);
+
+#define VGA_COLOR_BLACK 0
+#define VGA_COLOR_DBLUE 1
+#define VGA_COLOR_DGREEN 2
+#define VGA_COLOR_DCYAN 3
+#define VGA_COLOR_DRED 4
+#define VGA_COLOR_DMAGENTA 5
+#define VGA_COLOR_BROWN 6
+#define VGA_COLOR_GRAY 7
+
+#define VGA_COLOR_DGRAY 8
+#define VGA_COLOR_BLUE 9
+#define VGA_COLOR_GREEN 10
+#define VGA_COLOR_CYAN 11
+#define VGA_COLOR_RED 12
+#define VGA_COLOR_MAGENTA 13
+#define VGA_COLOR_YELLOW 14
+#define VGA_COLOR_WHITE 15
